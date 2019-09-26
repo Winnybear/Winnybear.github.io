@@ -56,14 +56,14 @@
 </script>
 
   <meta name="description" content="博主的博客是用的Hexo的模版，服务器是用的阿里云的轻量应用服务器。 利用Nginx + Express托管静态文件。 安装Hexo👇点我传送 安装hexo-deployer-git1npm install hexo-deployer-git --save  通过git进行部署编辑_config.yml文件在文件末尾加上下面👇代码 123deploy:	type: git	repo: &amp;lt;">
-<meta name="keywords" content="webhooks">
+<meta name="keywords" content="Webhooks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="webhook搭建自动化更新部署博客">
 <meta property="og:url" content="http://icloudbear.com/2019/09/22/github-webhook/index.html">
 <meta property="og:site_name" content="Winny的个人博客">
 <meta property="og:description" content="博主的博客是用的Hexo的模版，服务器是用的阿里云的轻量应用服务器。 利用Nginx + Express托管静态文件。 安装Hexo👇点我传送 安装hexo-deployer-git1npm install hexo-deployer-git --save  通过git进行部署编辑_config.yml文件在文件末尾加上下面👇代码 123deploy:	type: git	repo: &amp;lt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-25T15:26:23.739Z">
+<meta property="og:updated_time" content="2019-09-25T16:49:31.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webhook搭建自动化更新部署博客">
 <meta name="twitter:description" content="博主的博客是用的Hexo的模版，服务器是用的阿里云的轻量应用服务器。 利用Nginx + Express托管静态文件。 安装Hexo👇点我传送 安装hexo-deployer-git1npm install hexo-deployer-git --save  通过git进行部署编辑_config.yml文件在文件末尾加上下面👇代码 123deploy:	type: git	repo: &amp;lt;">
@@ -209,33 +209,11 @@
       
       
         
-        <li class="menu-item menu-item-schedule">
-      
-    
-
-    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
-
-  </li>
-      
-      
-      
-        
         <li class="menu-item menu-item-sitemap">
       
     
 
-    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
-
-  </li>
-      
-      
-      
-        
-        <li class="menu-item menu-item-commonweal">
-      
-    
-
-    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+    <a href="/baidusitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
 
   </li>
   </ul>
@@ -304,7 +282,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-25 23:26:23" itemprop="dateModified" datetime="2019-09-25T23:26:23+08:00">2019-09-25</time>
+                <time title="修改时间：2019-09-26 00:49:31" itemprop="dateModified" datetime="2019-09-26T00:49:31+08:00">2019-09-26</time>
               </span>
             
           
@@ -342,11 +320,11 @@
 </blockquote>
 <h4 id="安装-shelljs"><a href="#安装-shelljs" class="headerlink" title="安装 shelljs"></a>安装 shelljs</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i shelljs</span><br></pre></td></tr></table></figure>
 
-<h4 id="新建一个shell-js文件"><a href="#新建一个shell-js文件" class="headerlink" title="新建一个shell.js文件"></a>新建一个shell.js文件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!shell.which(<span class="string">'git'</span>)) &#123;</span><br><span class="line">    shell.echo(<span class="string">'Sorry, this script requires git'</span>);</span><br><span class="line">    shell.exit(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line">shell.cd(<span class="string">'/home/admin/git/JohnSmith.github.io/'</span>);</span><br><span class="line">shell.echo(<span class="string">'开始更新git仓库'</span>);</span><br><span class="line">shell.exec(<span class="string">'git pull'</span>, &#123;<span class="attr">slient</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">shell.echo(<span class="string">'git 更新完成'</span>)</span><br><span class="line">shell.exec(<span class="string">'cd /usr/local/nginx/sbin &amp;&amp; pkill -9 nginx &amp;&amp; ./nginx -c /usr/local/nginx/conf/nginx.conf'</span>);</span><br><span class="line">shell.echo(<span class="string">'nginx 重启完成'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="新建一个shell-js文件"><a href="#新建一个shell-js文件" class="headerlink" title="新建一个shell.js文件"></a>新建一个shell.js文件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!shell.which(<span class="string">'git'</span>)) &#123;</span><br><span class="line">    shell.echo(<span class="string">'Sorry, this script requires git'</span>);</span><br><span class="line">    shell.exit(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line">shell.cd(<span class="string">'/home/admin/git/JohnSmith.github.io/'</span>);</span><br><span class="line">shell.echo(<span class="string">'开始更新git仓库'</span>);</span><br><span class="line">shell.exec(<span class="string">'git pull'</span>, &#123;<span class="attr">slient</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">shell.echo(<span class="string">'git 更新完成'</span>)</span><br><span class="line">shell.exec(<span class="string">'cd /usr/local/nginx/sbin &amp;&amp; pkill -9 nginx &amp;&amp; ./nginx -c /usr/local/nginx/conf/nginx.conf'</span>);</span><br><span class="line">shell.echo(<span class="string">'nginx 重启完成'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>上面代码主要是进入到博主服务器上的git仓库文件夹下，拉取最新代码，然后重启nginx服务器。大家可以根据自己实际情况进行修改。</p>
 <h4 id="添加接口监听"><a href="#添加接口监听" class="headerlink" title="添加接口监听"></a>添加接口监听</h4><p>添加webhooks接口监听：👇</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.post(&apos;/postreceive&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  console.log(&apos;监测到git push 操作的 webhook请求&apos;)</span><br><span class="line">  // 在这里你也可以校验该请求是否是github发来的</span><br><span class="line">  shell.exec(&apos;node shell.js&apos;);</span><br><span class="line">  // 调用</span><br><span class="line">  res.send(true)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.post(<span class="string">'/postreceive'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'监测到git push 操作的 webhook请求'</span>)</span><br><span class="line">  <span class="comment">// 在这里你也可以校验该请求是否是github发来的</span></span><br><span class="line">  shell.exec(<span class="string">'node shell.js'</span>);</span><br><span class="line">  <span class="comment">// 调用</span></span><br><span class="line">  res.send(<span class="literal">true</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>然后重启express进程。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>现在你可以在你本机编写你的博客内容，编写完成后通过<code>hexo clean &amp;&amp; hexo deploy</code>命令即可一键部署，然后稍等一下你就可以看到你的博客已经更新到最新内容了。你也可以像博主一样，分阶段输出一些命令，方便测试哪里出了🐛。</p>
@@ -365,7 +343,7 @@
           
           <div class="post-tags">
             
-              <a href="/tags/webhooks/" rel="tag"># webhooks</a>
+              <a href="/tags/Webhooks/" rel="tag"># Webhooks</a>
             
           </div>
         
@@ -454,17 +432,42 @@
     
       
       
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
       <div class="site-state-item site-state-tags">
         
+          
+            <a href="/tags/">
+          
+        
         
         
           
         
           
         
-        <span class="site-state-item-count">2</span>
+          
+        
+          
+        
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
-        
+        </a>
       </div>
     
   </nav>
