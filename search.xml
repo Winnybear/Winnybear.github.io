@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Vue项目中插入百度热力图]]></title>
+    <url>%2F2019%2F10%2F04%2Fhotmap%2F</url>
+    <content type="text"><![CDATA[引入百度地图SDK在项目的index.html中引入百度地图及热力图sdk，百度APIkey可以去申请一下。 12&lt;script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&amp;ak=youAk"&gt;&lt;/script&gt;&lt;script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"&gt;&lt;/script&gt; 安装echasrts1npm install echarts 在main.js中引入echarts12345import Vue from 'vue'import echarts from 'echarts'import 'echarts/extension/bmap/bmap';Vue.prototype.$echarts = echarts; 在vue组件中使用1&lt;div id="myChart" style="width:1000px;height:500px"&gt;&lt;/div&gt; 12345678910111213141516171819202122232425262728293031323334353637383940mounted() &#123; let myChart = this.$echarts.init(document.getElementById("myChart")); let option; myChart.setOption( (option = &#123; animation: false, bmap: &#123; center: [120.13066322374, 30.240018034923], zoom: 14, roam: true &#125;, visualMap: &#123; show: true, top: "top", min: 0, max: 5, seriesIndex: 0, calculable: true, inRange: &#123; color: ["blue", "blue", "green", "yellow", "red"] &#125; &#125;, series: [ &#123; type: "heatmap", coordinateSystem: "bmap", data: [[120.14322240845,30.236064370321],[120.14280555506,30.23633761213],[120.14322240845,30.236064370321],[120.14322240845,30.236064370321]], pointSize: 5, blurSize: 6 &#125; ] &#125;) ); var bmap = myChart .getModel() .getComponent("bmap") .getBMap(); bmap.addControl(new BMap.MapTypeControl()); &#125; 配置项中的series.data字段就是热力图的经纬度数据源，直接替换即可。]]></content>
+      <tags>
+        <tag>热力图 百度地图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[webhook搭建自动化更新部署博客]]></title>
+    <url>%2F2019%2F09%2F22%2Fgithub-webhook%2F</url>
+    <content type="text"><![CDATA[博主的博客是用的Hexo的模版，服务器是用的阿里云的轻量应用服务器。 利用Nginx + Express托管静态文件。 安装Hexo👇点我传送 安装hexo-deployer-git1npm install hexo-deployer-git --save 通过git进行部署编辑_config.yml文件在文件末尾加上下面👇代码 123deploy: type: git repo: &lt;你的github 仓库地址&gt; # https://github.com/JohnSmith/johnsmith.github.io 然后保存退出。 你可以通过 hexo new HelloWorld 创建一个名为HelloWorld的md文件，你可以随意输入东西。 部署到github page输入下面命令进行部署： 1hexo clean &amp;&amp; hexo deploy 命令运行结束，你就可以通过访问github page看到你的博客了。 添加WebHooks登录github，进入到你的博客仓库。点击Settings -&gt; Webhooks-&gt;Add web hook 你要输入三个信息：Payload URL（你接收的webhook钩子请求的接口）、Content type（数据传输方式）、Secret（校验信息） 然后下面你可以选择在什么行为下，激活这个webhook钩子发请求给你的服务器。你可以选择第一项，只在推送代码到远程仓库时，通知你的服务器拉取最新代码。 服务器设置 这里博主时express添加新的接口处理，然后写了一个js版的shell脚本。 安装 shelljs1npm i shelljs 新建一个shell.js文件12345678910if (!shell.which('git')) &#123; shell.echo('Sorry, this script requires git'); shell.exit(1);&#125;shell.cd('/home/admin/git/JohnSmith.github.io/');shell.echo('开始更新git仓库');shell.exec('git pull', &#123;slient: true&#125;);shell.echo('git 更新完成')shell.exec('cd /usr/local/nginx/sbin &amp;&amp; pkill -9 nginx &amp;&amp; ./nginx -c /usr/local/nginx/conf/nginx.conf');shell.echo('nginx 重启完成') 上面代码主要是进入到博主服务器上的git仓库文件夹下，拉取最新代码，然后重启nginx服务器。大家可以根据自己实际情况进行修改。 添加接口监听添加webhooks接口监听：👇 1234567app.post('/postreceive', (req, res) =&gt; &#123; console.log('监测到git push 操作的 webhook请求') // 在这里你也可以校验该请求是否是github发来的 shell.exec('node shell.js'); // 调用 res.send(true)&#125;) 然后重启express进程。 测试现在你可以在你本机编写你的博客内容，编写完成后通过hexo clean &amp;&amp; hexo deploy命令即可一键部署，然后稍等一下你就可以看到你的博客已经更新到最新内容了。你也可以像博主一样，分阶段输出一些命令，方便测试哪里出了🐛。]]></content>
+      <tags>
+        <tag>Webhooks</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vue项目中引入Axios，设置跨域代理]]></title>
+    <url>%2F2019%2F09%2F03%2Fvue-axios%2F</url>
+    <content type="text"><![CDATA[引入Axios，配置baseUrl12345import Vue from &apos;vue&apos;import Axios from &apos;axios&apos;Vue.prototype.$axios = AxiosAxios.defaults.baseURL = &apos;/api&apos; 配置configVue Cli 2.x选择config文件夹下的index.js，添加如下代码至proxyTable对象中： 1234567&apos;api&apos;:&#123; target: &quot;&lt;url&gt;&quot;, // 目标地址，例如：http://localhost:8090 changeOrigin: true, pathRewrite:&#123; &apos;^/api&apos;:&apos;&apos; &#125;&#125; Vue Cli 3.x新建vue.config.js写入下面👇代码或者在已有的vue.config.js中加入下面👇proxy部分代码： 1234567891011121314module.exports = &#123; devServer: &#123; proxy: &#123; &apos;/api&apos;: &#123; target: &apos;&lt;url&gt;&apos;, //目标地址 比如：http://localhost:8090 ws: true, changeOrigin: true, pathRewrite: &#123; &apos;^/api&apos;: &apos;&apos; &#125; &#125; &#125; &#125;&#125; 测试在vue页面代码方法中调用,例如下面我在created方法中调用接口 12345678....created()&#123; this.$axios.get(&apos;/getUserInfo?Id=10&apos;) .then(res =&gt; console.log(res) ) .catch(err =&gt; console.log(err));&#125;... 此时你就可以在控制台中看到后端接口返回的数据了。如果你有更多需求，可以戳我👇查看更多配置。]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>Vue</tag>
+        <tag>Axios</tag>
+        <tag>Webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F09%2F03%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+</search>
